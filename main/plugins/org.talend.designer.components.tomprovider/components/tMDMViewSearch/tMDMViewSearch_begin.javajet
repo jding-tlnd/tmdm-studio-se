@@ -172,6 +172,8 @@ if ((metadatas != null) && (metadatas.size() > 0)) {
                 boolean isOnlyOrPredicate=true;
                 for(int i=0; i < operations.size(); i++){
                     Map<String, String> map= operations.get(i);
+					String activeValue = map.get("ACTIVE");
+					String customActiveValue = map.get("CUSTOM_ACTIVE");
                     String xpath=map.get("XPATH");
                     String operator=map.get("FUNCTION");
                     String value = map.get("VALUE");
@@ -180,9 +182,11 @@ if ((metadatas != null) && (metadatas.size() > 0)) {
                         isOnlyOrPredicate = false;
                     }
                     %>
-                    wc_<%=cid %> =new org.talend.mdm.webservice.WSWhereCondition(<%=xpath %>,org.talend.mdm.webservice.WSWhereOperator.<%=operator %>, <%="EMPTY_NULL".equals(operator)? null:value %>, false, org.talend.mdm.webservice.WSStringPredicate.<%=predicate %>);
-                    org.talend.mdm.webservice.WSWhereItem wsItem_<%=i %>=new org.talend.mdm.webservice.WSWhereItem(null,wc_<%=cid %>,null);
-                    conditions_<%=cid %>.add(wsItem_<%=i %>);
+					if("TRUE".equals("<%=activeValue %>") || ("CUSTOM".equals("<%=activeValue %>") && "TRUE".equals(<%=customActiveValue %>.toUpperCase()))){
+                      wc_<%=cid %> =new org.talend.mdm.webservice.WSWhereCondition(<%=xpath %>,org.talend.mdm.webservice.WSWhereOperator.<%=operator %>, <%="EMPTY_NULL".equals(operator)? null:value %>, false, org.talend.mdm.webservice.WSStringPredicate.<%=predicate %>);
+                      org.talend.mdm.webservice.WSWhereItem wsItem_<%=i %>=new org.talend.mdm.webservice.WSWhereItem(null,wc_<%=cid %>,null);
+                      conditions_<%=cid %>.add(wsItem_<%=i %>);
+					}
                 <%
                 }//for
                 %>

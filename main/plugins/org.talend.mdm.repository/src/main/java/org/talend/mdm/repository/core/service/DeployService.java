@@ -216,12 +216,9 @@ public class DeployService {
             // update consistency value
             try {
                 updateServerConsistencyStatus(serverDef, mainStatus);
-            } catch (XtentisException e) {
-                log.error(e.getMessage(), e);
-            } catch (WebServiceException e) {
-                log.error(e.getMessage(), e);
+            } catch (Exception e) {
+                log.error(Messages.AbstractDataClusterAction_ConnectFailed, e);
             }
-            //
             generateValidationFailedDeployStatus(mainStatus, invalidObjects);
             if (UIUtil.isWorkInUI()) {
                 generateConsistencyCancelDeployStatus(mainStatus,

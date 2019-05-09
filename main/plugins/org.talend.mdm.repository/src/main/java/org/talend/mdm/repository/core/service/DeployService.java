@@ -217,7 +217,7 @@ public class DeployService {
             try {
                 updateServerConsistencyStatus(serverDef, mainStatus);
             } catch (Exception e) {
-                log.error(Messages.AbstractDataClusterAction_ConnectFailed, e);
+                log.error("Unable to update server consistency status ", e);
             }
             generateValidationFailedDeployStatus(mainStatus, invalidObjects);
             if (UIUtil.isWorkInUI()) {
